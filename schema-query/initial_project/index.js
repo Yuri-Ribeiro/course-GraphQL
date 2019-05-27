@@ -4,42 +4,44 @@ const { ApolloServer, gql } = require('apollo-server')
 const typeDefs = gql`
     scalar Date
 
-    type Usuario {
+    type User {
         id: ID!
-        nome: String!
+        name: String!
         email: String!
-        idade: Int
-        salario: Float
+        age: Int
+        salary: Float
         vip: Boolean
     }
 
-    type Produto {
-        nome: String!
-        preco: Float!
-        desconto: Float
-        precoComDesconto: Float
+    type Product {
+        name: String!
+        price: Float!
+        discount: Float
+        discountPrice: Float
     }
 
     # first type. It's a reserved name. API entry points
     type Query {
         hello: String
         rightTime: Date
-        usuarioLogado: Usuario
-        produtoEmDestaque: Produto
+        loggedUser: User
+        featuredProduct: Product
+        # array notation
+        megaSenaNumbers: [Int!]!
     }
 `
 
 //Functions that solve the data
 const resolvers = {
-    Usuario: {
-        salario(usuario){
-            return usuario.salario_real
+    User: {
+        salary(user){
+            return user.real_salary
         }
     },
 
-    Produto: {
-        precoComDesconto(produto){
-            return produto.preco * (1 - produto.desconto)
+    Product: {
+        discountPrice(product){
+            return product.price * (1 - product.discount)
         }
     },
 
@@ -50,22 +52,26 @@ const resolvers = {
         rightTime(){
             return new Date
         },
-        usuarioLogado(){
+        loggedUser(){
             return {
                 id: 1,
-                nome: "Rogério",
+                name: "Rogério",
                 email: "rogeriosilva@test.com",
-                idade: 24,
-                salario_real: 8000.87,
+                age: 24,
+                real_salary: 8000.87,
                 vip: true
             }
         },
-        produtoEmDestaque(){
+        featuredProduct(){
             return {
-                nome: "Bike",
-                preco: 1699.99,
-                desconto: 0.15
+                name: "Bike",
+                price: 1699.99,
+                discount: 0.5
             }
+        },
+        megaSenaNumbers(){
+            let numbers = Array(6).fill(0).map(e => parseInt(Math.random() * 60 + 1))
+            return numbers.sort((a, b) => a - b)
         }
     }
 }
