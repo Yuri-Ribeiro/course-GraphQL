@@ -6,6 +6,7 @@ const typeDefs = gql`
     # first type. It's a reserved name. API entry points
     type Query {
         hello: String
+        rightTime: String
     }
 `
 
@@ -14,6 +15,9 @@ const resolvers = {
     Query: {
         hello(){
             return `Just return a string`
+        },
+        rightTime(){
+            return `${new Date}`
         }
     }
 }
