@@ -10,7 +10,13 @@ const typeDefs = gql`
 `
 
 //Functions that solve the data
-const resolvers = {}
+const resolvers = {
+    Query: {
+        hello(){
+            return `Just return a string`
+        }
+    }
+}
 
 const server = new ApolloServer({
     typeDefs,
