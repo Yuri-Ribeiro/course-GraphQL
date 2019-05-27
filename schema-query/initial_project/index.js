@@ -2,11 +2,12 @@ const { ApolloServer, gql } = require('apollo-server')
 
 //API Schema; gql: it's a tagged template
 const typeDefs = gql`
+    scalar Date
 
     # first type. It's a reserved name. API entry points
     type Query {
         hello: String
-        rightTime: String
+        rightTime: Date
     }
 `
 
@@ -17,7 +18,7 @@ const resolvers = {
             return `Just return a string`
         },
         rightTime(){
-            return `${new Date}`
+            return new Date
         }
     }
 }
