@@ -13,11 +13,19 @@ const typeDefs = gql`
         vip: Boolean
     }
 
+    type Produto {
+        nome: String!
+        preco: Float!
+        desconto: Float
+        precoComDesconto: Float
+    }
+
     # first type. It's a reserved name. API entry points
     type Query {
         hello: String
         rightTime: Date
         usuarioLogado: Usuario
+        produtoEmDestaque: Produto
     }
 `
 
@@ -26,6 +34,12 @@ const resolvers = {
     Usuario: {
         salario(usuario){
             return usuario.salario_real
+        }
+    },
+
+    Produto: {
+        precoComDesconto(produto){
+            return produto.preco * (1 - produto.desconto)
         }
     },
 
@@ -44,6 +58,13 @@ const resolvers = {
                 idade: 24,
                 salario_real: 8000.87,
                 vip: true
+            }
+        },
+        produtoEmDestaque(){
+            return {
+                nome: "Bike",
+                preco: 1699.99,
+                desconto: 0.15
             }
         }
     }
