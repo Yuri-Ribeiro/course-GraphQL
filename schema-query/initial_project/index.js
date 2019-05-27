@@ -4,10 +4,20 @@ const { ApolloServer, gql } = require('apollo-server')
 const typeDefs = gql`
     scalar Date
 
+    type Usuario {
+        id: ID!
+        nome: String!
+        email: String!
+        idade: Int
+        salario: Float
+        vip: Boolean
+    }
+
     # first type. It's a reserved name. API entry points
     type Query {
         hello: String
         rightTime: Date
+        usuarioLogado: Usuario
     }
 `
 
@@ -19,6 +29,16 @@ const resolvers = {
         },
         rightTime(){
             return new Date
+        },
+        usuarioLogado(){
+            return {
+                id: 1,
+                nome: "Rogério",
+                email: "rogeriosilva@test.com",
+                idade: 24,
+                salario: 8000.87,
+                vip: true
+            }
         }
     }
 }
