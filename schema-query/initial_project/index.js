@@ -23,6 +23,12 @@ const typeDefs = gql`
 
 //Functions that solve the data
 const resolvers = {
+    Usuario: {
+        salario(usuario){
+            return usuario.salario_real
+        }
+    },
+
     Query: {
         hello(){
             return `Just return a string`
@@ -36,7 +42,7 @@ const resolvers = {
                 nome: "Rogério",
                 email: "rogeriosilva@test.com",
                 idade: 24,
-                salario: 8000.87,
+                salario_real: 8000.87,
                 vip: true
             }
         }
