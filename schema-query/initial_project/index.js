@@ -1,5 +1,23 @@
 const { ApolloServer, gql } = require('apollo-server')
 
+//hard-code array
+const users = [{
+    id: 1,
+    name: 'João Silva',
+    email: 'jsilva@zemail.com',
+    age: 29
+}, {
+    id: 2,
+    name: 'Rafael Junior',
+    email: 'rafajun@wemail.com',
+    age: 31
+}, {
+    id: 3,
+    name: 'Daniela Smith',
+    email: 'danismi@umail.com',
+    age: 24
+}]
+
 //API Schema; gql: it's a tagged template
 const typeDefs = gql`
     scalar Date
@@ -28,6 +46,7 @@ const typeDefs = gql`
         featuredProduct: Product
         # array notation
         megaSenaNumbers: [Int!]!
+        users: [User!]!
     }
 `
 
@@ -72,6 +91,9 @@ const resolvers = {
         megaSenaNumbers(){
             let numbers = Array(6).fill(0).map(e => parseInt(Math.random() * 60 + 1))
             return numbers.sort((a, b) => a - b)
+        },
+        users(){
+            return users
         }
     }
 }
