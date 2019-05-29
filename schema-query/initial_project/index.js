@@ -1,5 +1,26 @@
 const { ApolloServer, gql } = require('apollo-server')
 
+const profiles = [
+    {id: 1, name: 'common'},
+    {id: 2, name: 'administrator'}
+]
+
+// {
+//     id: 1,
+//     name: 'Amanda Costa'
+// },
+// {
+//     id: 2,
+//     name: 'Ricardo Bazão'
+// },
+// {
+//     id: 3,
+//     name: 'João Farias'
+// },
+// {
+//     id: 4,
+//     name: 'Solange Brito'
+// }
 //hard-code array
 const users = [{
     id: 1,
@@ -38,6 +59,11 @@ const typeDefs = gql`
         discountPrice: Float
     }
 
+    type Profile {
+        id: Int!
+        name: String!
+    }
+
     # first type. It's a reserved name. API entry points
     type Query {
         hello: String
@@ -48,6 +74,8 @@ const typeDefs = gql`
         megaSenaNumbers: [Int!]!
         users: [User!]!
         user(id: Int): User
+        profiles: [Profile]
+        profile(id: Int): Profile
     }
 `
 
@@ -99,6 +127,13 @@ const resolvers = {
         user(_, { id }){
             const selected = users.filter( user => user.id === id )
             return selected ? selected[0]: null
+        },
+        profiles(){
+            return profiles
+        },
+        profile(_, { id }){
+            const selected = profiles.filter( profile => profile.id === id)
+            return selected ? selected[0] : null
         }
     }
 }
