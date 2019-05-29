@@ -5,38 +5,25 @@ const profiles = [
     {id: 2, name: 'administrator'}
 ]
 
-// {
-//     id: 1,
-//     name: 'Amanda Costa'
-// },
-// {
-//     id: 2,
-//     name: 'Ricardo Bazão'
-// },
-// {
-//     id: 3,
-//     name: 'João Farias'
-// },
-// {
-//     id: 4,
-//     name: 'Solange Brito'
-// }
 //hard-code array
 const users = [{
     id: 1,
     name: 'João Silva',
     email: 'jsilva@zemail.com',
-    age: 29
+    age: 29,
+    profile_id: 1
 }, {
     id: 2,
     name: 'Rafael Junior',
     email: 'rafajun@wemail.com',
-    age: 31
+    age: 31,
+    profile_id: 2
 }, {
     id: 3,
     name: 'Daniela Smith',
     email: 'danismi@umail.com',
-    age: 24
+    age: 24,
+    profile_id: 1
 }]
 
 //API Schema; gql: it's a tagged template
@@ -50,6 +37,7 @@ const typeDefs = gql`
         age: Int
         salary: Float
         vip: Boolean
+        profile: Profile
     }
 
     type Product {
@@ -84,6 +72,10 @@ const resolvers = {
     User: {
         salary(user){
             return user.real_salary
+        },
+        profile(user){
+            const sels = profiles.filter( p => p.id === user.profile_id)
+            return sels? sels[0]: null
         }
     },
 
