@@ -1,0 +1,13 @@
+# first type. It's a reserved name. API entry points
+type Query {
+    hello: String
+    rightTime: Date
+    loggedUser: User
+    featuredProduct: Product
+    # array notation
+    megaSenaNumbers: [Int!]!
+    users: [User!]!
+    user(id: Int): User
+    profiles: [Profile]
+    profile(id: Int): Profile
+}

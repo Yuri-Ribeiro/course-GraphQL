@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server')
+const { importSchema } = require('graphql-import')
 
 const profiles = [
     {id: 1, name: 'common'},
@@ -25,47 +26,6 @@ const users = [{
     age: 24,
     profile_id: 1
 }]
-
-//API Schema; gql: it's a tagged template
-const typeDefs = gql`
-    scalar Date
-
-    type User {
-        id: Int!
-        name: String!
-        email: String!
-        age: Int
-        salary: Float
-        vip: Boolean
-        profile: Profile
-    }
-
-    type Product {
-        name: String!
-        price: Float!
-        discount: Float
-        discountPrice: Float
-    }
-
-    type Profile {
-        id: Int!
-        name: String!
-    }
-
-    # first type. It's a reserved name. API entry points
-    type Query {
-        hello: String
-        rightTime: Date
-        loggedUser: User
-        featuredProduct: Product
-        # array notation
-        megaSenaNumbers: [Int!]!
-        users: [User!]!
-        user(id: Int): User
-        profiles: [Profile]
-        profile(id: Int): Profile
-    }
-`
 
 //Functions that solve the data
 const resolvers = {
@@ -131,7 +91,7 @@ const resolvers = {
 }
 
 const server = new ApolloServer({
-    typeDefs,
+    typeDefs: importSchema('./schema/index.graphql'),
     resolvers
 })
 
