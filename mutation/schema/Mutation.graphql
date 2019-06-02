@@ -4,4 +4,6 @@ type Mutation {
         nome: String,
         email: String,
         idade: Int): Usuario!
+    
+    excluirUsuario(id: Int): Usuario
 }
