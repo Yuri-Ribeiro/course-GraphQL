@@ -36,17 +36,18 @@ module.exports = {
         return excluidos ?
             excluidos[0]: null
     },
-    alterarUsuario(_, args){
-        const i = usuarios.findIndex( usuario => usuario.id === args.id)
+    alterarUsuario(_, { filtro, dados }){
+        const i = indiceUsuario(filtro)
         if( i < 0 ) return null
-        if(args.nome){
-            usuarios[i].nome = args.nome
+        const { nome, email, idade } = dados
+        if(nome){
+            usuarios[i].nome = nome
         }
-        if(args.email){
-            usuarios[i].email = args.email
+        if(email){
+            usuarios[i].email = email
         }
-        if(args.idade){
-            usuarios[i].idade = args.idade
+        if(idade){
+            usuarios[i].idade = idade
         }
         return usuarios[i]
         // const usuario = {
