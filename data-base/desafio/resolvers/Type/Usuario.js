@@ -9,8 +9,5 @@ module.exports = {
                 'usuarios_perfis.perfil_id'
             )
             .where({usuario_id: usuario.id})
-    },
-    name(usuario) {
-        return usuario.nome
     }
 }

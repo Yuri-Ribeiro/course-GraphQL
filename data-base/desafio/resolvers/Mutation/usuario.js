@@ -65,7 +65,7 @@ module.exports = {
             }
             return usuario
         } catch(e){
-            throw new Error(e)
+            throw new Error(e.sqlMessage)
         }
     },
     async alterarUsuario(_, { filtro, dados }) {
