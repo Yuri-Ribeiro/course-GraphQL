@@ -5,7 +5,7 @@ module.exports = {
   connection: {
     database: 'desafio-cap-04',
     user:     'root',
-    password: '12345678'
+    password: '123456'
   },
   pool: {
     min: 2,
