@@ -2,6 +2,7 @@
 type Query {
     usuarios: [Usuario]
     usuario(filtro: UsuarioFiltro!): Usuario
+    name: String!
     perfis: [Perfil]
     perfil(filtro: PerfilFiltro!): Perfil
 }

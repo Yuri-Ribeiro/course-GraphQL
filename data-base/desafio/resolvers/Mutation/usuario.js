@@ -1,5 +1,6 @@
 const db = require('../../config/db')
 const { perfil: obterPerfil } = require('../Query/perfil')
+const { usuario: obterUsuario} = require('../Query/usuario')
 
 module.exports = {
     async novoUsuario(_, { dados }) {
@@ -14,13 +15,11 @@ module.exports = {
                     if(perfil) idsPerfis.push(perfil.id)
                 }
             }
+            delete dados.perfis
 
             let usuario = await db('usuarios')
                 .where({email: dados.email})
                 .first()
-
-            delete dados.perfis
-    
             if(!usuario){
                 const id = await db('usuarios')
                     .insert(dados)
@@ -43,7 +42,7 @@ module.exports = {
             for(perfil_id of idsPerfis){
                 await db('usuarios_perfis')
                     .insert({ usuario_id: usuario.id, perfil_id})
-            }
+            } 
 
             return db('usuarios')
                 .where({id: usuario.id}).first()
@@ -53,33 +52,64 @@ module.exports = {
     },
     async excluirUsuario(_, { filtro }) {
         try{
-            let usuario = filtro.id ? await db('usuarios').where({id: filtro.id}).first(): await db('usuarios').where({nome: filtro.nome}).first()
+            let usuario = await obterUsuario(_, { filtro })
 
-            if(usuario && !await db('usuarios_perfis').where({usuario_id: usuario.id}).first()){
-                await db('usuarios').where({nome: filtro.nome}).delete()
-                return usuario
+            if(usuario){
+                let { id } = usuario
+                await db('usuarios_perfis')
+                    .where({ usuario_id: id })
+                    .delete()
+                await db('usuarios')
+                    .where( { id })
+                    .delete()
             }
+            return usuario
         } catch(e){
-            throw new Error(e.sqlMessage)
+            throw new Error(e)
         }
     },
     async alterarUsuario(_, { filtro, dados }) {
         try{
-            let usuario = filtro.id ? await db('usuarios').where({id: filtro.id}).first(): await db('usuarios').where({email: filtro.email}).first()
+            const idsPerfis = []
             
-            if(await db('usuarios').where({nome: dados.nome}).first())
-                return null
-
+            if(dados.perfis){
+                for(let filtro of dados.perfis){
+                    const perfil = await obterPerfil(_, { filtro })
+                    if(perfil) idsPerfis.push(perfil.id)
+                }
+            }
+            delete dados.perfis
+            
+            let usuario = await obterUsuario(_, { filtro })  
             if(!usuario){
-                const id = await db('usuarios').insert(dados)
-                usuario = await db('usuarios').where({id}).first()
+                const id = await db('usuarios')
+                    .insert(dados)
+                usuario = await db('usuarios')
+                    .where({id})
+                    .first()
             } else {
-                await db('usuarios').where({id: usuario.id}).update(dados)
+                await db('usuarios')
+                    .where({id: usuario.id})
+                    .update(dados)
                 usuario = {...usuario, ...dados}
             }
-            return usuario
+
+            if(idsPerfis.length !== 0){
+                await db('usuarios_perfis')
+                    .where({usuario_id: usuario.id})
+                    .delete()
+
+                for(let perfil_id of idsPerfis){
+                    await db('usuarios_perfis')
+                        .insert({perfil_id, usuario_id: usuario.id})
+                }
+            }
+
+            return db('usuarios')
+                .where({id: usuario.id})
+                .first()
         } catch(e){
-            throw new Error(e.sqlMessage)
+            throw new Error(e)
         }
     }
 }
