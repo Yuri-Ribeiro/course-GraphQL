@@ -1,6 +1,6 @@
 type Usuario {
     id: Int
-    nome: String!
+    name: String!
     email: String!
     perfis: [Perfil]
 }
