@@ -33,7 +33,7 @@ const mutations = {
 
             // encrypt the password
             const salt = bcrypt.genSaltSync()
-            dados.senha = bcrypt.hashSync(dados.senhan, salt)
+            dados.senha = bcrypt.hashSync(dados.senha, salt)
 
             delete dados.perfis
             const [ id ] = await db('usuarios')

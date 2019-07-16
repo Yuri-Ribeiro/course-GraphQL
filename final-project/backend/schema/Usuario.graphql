@@ -3,12 +3,18 @@ type Usuario {
     nome: String!
     email: String!
     perfis: [Perfil]
+    token: String
 }
 
 input UsuarioRegistrarInput {
-    nome: String
-    email: String
-    senha: String
+    nome: String!
+    email: String!
+    senha: String!
+}
+
+input UsuarioLoginInput {
+    email: String!
+    senha: String!
 }
 
 input UsuarioInput {
