@@ -22,6 +22,8 @@ module.exports = {
     },
 
     usuarios() {
+        console.log(context.text)
+        context.print()
         return db('usuarios')
     },
     usuario(_, { filtro }) {
