@@ -25,4 +25,17 @@ module.exports = async ({ req }) => {
     if(usuario && usuario.perfis) {
         admin = usuario.perfis.includes('admin')
     }
+
+    const err = new Error('Acesso negado!')
+
+    return {
+        usuario,
+        admin,
+        validarUsuario(){
+            if(!usuario) throw err
+        },
+        validarAdmin(){
+            if(!admin) throw err
+        }
+    }
 }
