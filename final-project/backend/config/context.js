@@ -2,7 +2,7 @@ const jwt = require('jwt-simple')
 
 module.exports = async ({ req }) => {
     // Em desenvolvimento
-    // await require('./simularUsuarioLogado')(req)
+    await require('./simularUsuarioLogado')(req)
 
     const auth = req.headers.authorization
     const token = auth && auth.substring(7)
@@ -23,7 +23,7 @@ module.exports = async ({ req }) => {
     }
 
     if(usuario && usuario.perfis) {
-        admin = usuario.perfis.includes('common')
+        admin = usuario.perfis.includes('admin')
     }
 
     const err = new Error('Acesso negado!')
