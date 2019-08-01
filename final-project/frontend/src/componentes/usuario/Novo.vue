@@ -85,10 +85,10 @@ export default {
         obterPerfis() {
             this.$api.query({
                 query: gql`{ perfis { id rotulo } }`
-            }).then( resultado => {
+            }).then(resultado => {
                 this.perfis = resultado.data.perfis
                 this.erros = null
-            }).catch( e => {
+            }).catch(e => {
                 this.erros = e
             })
         }
