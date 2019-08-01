@@ -20,7 +20,7 @@
                         <td>{{ props.item.nome }}</td>
                         <td>{{ props.item.email }}</td>
                         <td>{{ props.item.perfis
-                                .map(p => p.nome)
+                                .map(p => p.rotulo)
                                 .join(', ') }}</td>
                     </template>
                 </v-data-table>
@@ -53,7 +53,7 @@ export default {
                 query: gql`
                     query {
                         usuarios {
-                            id nome email perfis { nome rotulo }
+                            id nome email perfis { rotulo }
                         }
                     }
                 `,
